@@ -15,10 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
-## [Unreleased] - YYYY-MM-DD
+## [0.1.0] - 2024-01-08
 
 ### Added
-### Changed
-### Deprecated
-### Fixed
-### Security
+- Shared file installation recipes
+- Shared git repo recipes
+- Shared bash script recipes
+- Shared common targets
