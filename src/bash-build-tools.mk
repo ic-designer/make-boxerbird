@@ -1,5 +1,5 @@
 define boxerbird::build-bash-executable
-	@echo 'Bulding executable $@'
+	@echo 'INFO: Bulding executable $@...'
 	@mkdir -p $(dir $@)
 	@echo '#!/usr/bin/env bash\n' > $@
 	@cat $^ >> $@
@@ -10,12 +10,14 @@ define boxerbird::build-bash-executable
 	@echo '        $(strip $(1)) "$$@"'  >> $@
     @echo '    )'  >> $@
 	@echo 'fi'  >> $@
+	@echo 'INFO: Bulding executable $@ completed.'
 	@echo
 endef
 
 define boxerbird::build-bash-library
-	@echo 'Bulding library $@'
+	@echo 'INFO: Bulding library $@...'
 	@mkdir -p $(dir $@)
 	@cat $^ > $@
+	@echo 'INFO: Bulding library $@ completed.'
 	@echo
 endef
