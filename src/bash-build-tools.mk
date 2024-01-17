@@ -1,4 +1,5 @@
 define boxerbird::build-bash-executable
+	@test -n "$^" || (echo "ERROR: no input files" && exit 0)
 	@echo 'INFO: Bulding executable $@...'
 	@mkdir -p $(dir $@)
 	@echo '#!/usr/bin/env bash\n' > $@
@@ -11,13 +12,12 @@ define boxerbird::build-bash-executable
     @echo '    )'  >> $@
 	@echo 'fi'  >> $@
 	@echo 'INFO: Bulding executable $@ completed.'
-	@echo
 endef
 
 define boxerbird::build-bash-library
+	@test -n "$^" || (echo "ERROR: no input files" && exit 0)
 	@echo 'INFO: Bulding library $@...'
 	@mkdir -p $(dir $@)
 	@cat $^ > $@
 	@echo 'INFO: Bulding library $@ completed.'
-	@echo
 endef
