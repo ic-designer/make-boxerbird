@@ -22,26 +22,37 @@ $(WORKDIR_TEST)/test-build-bash-library-no-files/library.sh:
 
 
 PHONY: test-build-bash-library-one-file
-test-build-bash-library-one-file: $(WORKDIR_TEST)/test-build-bash-library-one-file/library.sh
-	@test "$(shell cat $<)" = "test-build-bash-library-one-file/alpha" || (cat $< && exit 1)
+test-build-bash-library-one-file: \
+		$(WORKDIR_TEST)/test-build-bash-library-one-file/library-actual.sh \
+		$(WORKDIR_TEST)/test-build-bash-library-one-file/library-expected.sh
+	@diff -y $^
 	@printf "\e[1;32mPassed: $(TEST_BASH_BUILD_TOOLS.MK)::$@\e[0m\n"
 
-$(WORKDIR_TEST)/test-build-bash-library-one-file/library.sh: \
+$(WORKDIR_TEST)/test-build-bash-library-one-file/library-actual.sh: \
 		$(WORKDIR_TEST)/test-build-bash-library-one-file/alpha-src.sh
 	@$(boxerbird::build-bash-library)
 
+$(WORKDIR_TEST)/test-build-bash-library-one-file/library-expected.sh:
+	@mkdir -p $(dir $@)
+	@echo 'function alpha () { echo alpha "$$@"; }' > $@
+
 
 PHONY: test-build-bash-library-two-files
-test-build-bash-library-two-files: $(WORKDIR_TEST)/test-build-bash-library-two-files/library.sh
-	@test "$(shell cat $<)" = \
-"test-build-bash-library-two-files/alpha \
-test-build-bash-library-two-files/beta" || (cat $< && exit 1)
+test-build-bash-library-two-files: \
+		$(WORKDIR_TEST)/test-build-bash-library-two-files/library-actual.sh \
+		$(WORKDIR_TEST)/test-build-bash-library-two-files/library-expected.sh
+	@diff -y $^
 	@printf "\e[1;32mPassed: $(TEST_BASH_BUILD_TOOLS.MK)::$@\e[0m\n"
 
-$(WORKDIR_TEST)/test-build-bash-library-two-files/library.sh: \
+$(WORKDIR_TEST)/test-build-bash-library-two-files/library-actual.sh: \
 		$(WORKDIR_TEST)/test-build-bash-library-two-files/alpha-src.sh \
 		$(WORKDIR_TEST)/test-build-bash-library-two-files/beta-src.sh
 	@$(boxerbird::build-bash-library)
+
+$(WORKDIR_TEST)/test-build-bash-library-two-files/library-expected.sh:
+	@mkdir -p $(dir $@)
+	@echo 'function alpha () { echo alpha "$$@"; }' > $@
+	@echo 'function beta () { echo beta "$$@"; }' >> $@
 
 
 PHONY: test-build-bash-executable-no-files
@@ -55,56 +66,31 @@ $(WORKDIR_TEST)/test-build-bash-executable-no-files/executable.sh:
 
 PHONY: test-build-bash-executable-one-file
 test-build-bash-executable-one-file: \
-		$(WORKDIR_TEST)/test-build-bash-executable-one-file/executable-actual.sh \
-		$(WORKDIR_TEST)/test-build-bash-executable-one-file/executable-expected.sh
-	@diff -y $^
+		$(WORKDIR_TEST)/test-build-bash-executable-one-file/executable.sh
+	@test "alpha" = "$(shell $^)"
+	@test "alpha beta" = "$(shell $^ beta)"
+	@test "alpha beta gamma" = "$(shell $^ beta gamma)"
 	@printf "\e[1;32mPassed: $(TEST_BASH_BUILD_TOOLS.MK)::$@\e[0m\n"
 
-$(WORKDIR_TEST)/test-build-bash-executable-one-file/executable-actual.sh: \
+$(WORKDIR_TEST)/test-build-bash-executable-one-file/executable.sh: \
 		$(WORKDIR_TEST)/test-build-bash-executable-one-file/alpha-src.sh
 	@$(call boxerbird::build-bash-executable, alpha)
-
-$(WORKDIR_TEST)/test-build-bash-executable-one-file/executable-expected.sh:
-	@echo 'INFO: Bulding executable $@...'
-	@echo '#!/usr/bin/env bash\n' > $@
-	@echo 'test-build-bash-executable-one-file/alpha' >> $@
-	@echo  >> $@
-	@echo 'if [[ $${BASH_SOURCE[0]} == $${0} ]]; then' >> $@
-	@echo '    ('  >> $@
-	@echo '        set -euo pipefail'  >> $@
-	@echo '        alpha "$$@"'  >> $@
-	@echo '    )'  >> $@
-	@echo 'fi'  >> $@
-	@echo 'INFO: Bulding executable $@ completed.'
 
 
 PHONY: test-build-bash-executable-two-files
 test-build-bash-executable-two-files: \
-		$(WORKDIR_TEST)/test-build-bash-executable-two-files/executable-actual.sh \
-		$(WORKDIR_TEST)/test-build-bash-executable-two-files/executable-expected.sh
-	@diff -y $^
+		$(WORKDIR_TEST)/test-build-bash-executable-two-files/executable.sh
+	@test "alpha beta" = "$(shell $^)"
+	@test "alpha gamma beta gamma" = "$(shell $^ gamma)"
+	@test "alpha gamma delta beta gamma delta" = "$(shell $^ gamma delta)"
 	@printf "\e[1;32mPassed: $(TEST_BASH_BUILD_TOOLS.MK)::$@\e[0m\n"
 
-$(WORKDIR_TEST)/test-build-bash-executable-two-files/executable-actual.sh: \
-		$(WORKDIR_TEST)/test-build-bash-executable-two-files/alpha-src.sh \
-		$(WORKDIR_TEST)/test-build-bash-executable-two-files/beta-src.sh
-	@$(call boxerbird::build-bash-executable, beta)
-
-$(WORKDIR_TEST)/test-build-bash-executable-two-files/executable-expected.sh:
-	@echo 'INFO: Bulding executable $@...'
-	@echo '#!/usr/bin/env bash\n' > $@
-	@echo 'test-build-bash-executable-two-files/alpha' >> $@
-	@echo 'test-build-bash-executable-two-files/beta' >> $@
-	@echo  >> $@
-	@echo 'if [[ $${BASH_SOURCE[0]} == $${0} ]]; then' >> $@
-	@echo '    ('  >> $@
-	@echo '        set -euo pipefail'  >> $@
-	@echo '        beta "$$@"'  >> $@
-	@echo '    )'  >> $@
-	@echo 'fi'  >> $@
-	@echo 'INFO: Bulding executable $@ completed.'
+$(WORKDIR_TEST)/test-build-bash-executable-two-files/executable.sh: \
+		$(WORKDIR_TEST)/test-build-bash-executable-one-file/alpha-src.sh \
+		$(WORKDIR_TEST)/test-build-bash-executable-one-file/beta-src.sh
+	@$(call boxerbird::build-bash-executable, alpha "$$@" beta)
 
 
-$(WORKDIR_TEST)/%-src.sh:
+$(WORKDIR_TEST)/%-src.sh: $(MAKEFILE_LIST)
 	@mkdir -p $(dir $@)
-	@echo "$*" > $@
+	@echo 'function $(notdir $*) () { echo $(notdir $*) "$$@"; }' > $@

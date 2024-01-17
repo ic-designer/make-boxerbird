@@ -12,6 +12,7 @@ define boxerbird::build-bash-executable
     @echo '    )'  >> $@
 	@echo 'fi'  >> $@
 	@echo 'INFO: Bulding executable $@ completed.'
+	@chmod u+x $@
 endef
 
 define boxerbird::build-bash-library
