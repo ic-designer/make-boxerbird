@@ -4,7 +4,6 @@ define boxerbird::install-as-copy
 	@install -Sv $< $@
 	diff $@ $<
 	@echo "INFO: Installing copy $@ completed."
-	@echo
 endef
 
 define boxerbird::install-as-executable
@@ -14,7 +13,6 @@ define boxerbird::install-as-executable
 	diff $@ $<
 	test -x $@
 	@echo "INFO: Installing executable $@ completed."
-	@echo
 endef
 
 define boxerbird::install-as-link
@@ -24,5 +22,4 @@ define boxerbird::install-as-link
 	diff $@ $<
 	test -L $@
 	@echo "INFO: Installing link $@ completed."
-	@echo
 endef
