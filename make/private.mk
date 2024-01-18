@@ -13,6 +13,8 @@ override WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 # Includes
 include boxerbird.mk
 include test/test-bash-build-tools.mk
+include test/test-install-tools.mk
+
 
  # Targets
 .PHONY: private_clean
@@ -25,4 +27,4 @@ private_clean:
 
 
 .PHONY: private_test
-private_test: test-bash-build-tools
+private_test: test-bash-build-tools test-install-tools
