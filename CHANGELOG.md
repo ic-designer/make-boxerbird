@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - YYYY-MM-DD
 
 ### Added
+- Added a `help` target that parses the commands to produce a help message.
+- Created tests for the `bash-build-tools`.
+- Created tests for the `common-targets`.
+- Created tests for the `install-tools`.
 ### Changed
+- Slight changes to the verbosity of the recipes: added start messages, finish messages, and
+  removed the printing of empty lines.
 ### Deprecated
 ### Fixed
 ### Security
