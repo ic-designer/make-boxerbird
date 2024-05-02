@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
+## [Unreleased] - YYYY-MM-DD
+### Added
+- Added `workflow_dispatch` to the github workflow.
+### Changed
+### Deprecated
+### Fixed
+### Security
+
+
 ## [0.2.0] - 2024-05-01
 
 ### Added
