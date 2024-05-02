@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ```markdown
 ## [Unreleased] - YYYY-MM-DD
+### Added
+### Changed
+### Deprecated
+### Fixed
+### Security
+```
+
+## [0.2.0] - 2024-05-01
 
 ### Added
 - Added a `githooks.mk` include file that always creates a pre-push hook locally
@@ -18,10 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Slight changes to the verbosity of the recipes: added start messages, finish messages,
   and removed the printing of empty lines.
-### Deprecated
 ### Fixed
-### Security
-```
+- Fixed a bug in the `boxerbird::build-bash-executable` call.
 
 ## [0.1.0] - 2024-01-08
 
